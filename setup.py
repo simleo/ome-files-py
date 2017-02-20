@@ -61,7 +61,7 @@ class BuildExt(BaseBuildExt):
 ext = Extension(
     "ome_files",
     sources=["src/omefiles.cpp"],
-    libraries=["ome-common", "ome-files", "ome-xml"],
+    libraries=["ome-common", "ome-files", "ome-xml", "boost_python"],
     extra_compile_args=EXTRA_COMPILE_ARGS,
 )
 
