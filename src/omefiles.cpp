@@ -3,7 +3,7 @@
 
 using namespace boost::python;
 
-struct OMETIFFReaderWrapper : ome::files::in::OMETIFFReader, wrapper<ome::files::in::OMETIFFReader> {
+struct OMETIFFReaderWrapper : ome::files::in::OMETIFFReader {
   void setIdStr(std::string filename) {
     setId(filename);
   }
@@ -12,6 +12,6 @@ struct OMETIFFReaderWrapper : ome::files::in::OMETIFFReader, wrapper<ome::files:
 BOOST_PYTHON_MODULE(ome_files) {
   class_<OMETIFFReaderWrapper, boost::noncopyable>("OMETIFFReader")
     .def("set_id", &OMETIFFReaderWrapper::setIdStr)
-    .def("get_image_count", &ome::files::in::OMETIFFReader::getImageCount)
-    .def("close", &ome::files::in::OMETIFFReader::close);
+    .def("get_image_count", &OMETIFFReaderWrapper::getImageCount)
+    .def("close", &OMETIFFReaderWrapper::close);
 }
