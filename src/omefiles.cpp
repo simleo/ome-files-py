@@ -10,10 +10,13 @@ PYBIND11_PLUGIN(ome_files) {
     .def(py::init<>())
     .def("set_id", [](ome::files::in::OMETIFFReader &r, std::string id) {
 	r.setId(id);
-      })
+      }, "Set the current file name.")
     .def("get_image_count", [](ome::files::in::OMETIFFReader &r) {
 	return r.getImageCount();
-      })
-    .def("close", &ome::files::in::OMETIFFReader::close);
+      }, "Get the number of image planes in the current series.")
+    .def("close", &ome::files::in::OMETIFFReader::close,
+	 "Close the currently open file. "
+	 "If file_only is False, also reset all internal state",
+	 py::arg("file_only") = false);
   return m.ptr();
 }
