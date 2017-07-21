@@ -87,70 +87,70 @@ class TestOMETiffReader(unittest.TestCase):
         self.reader.close()
         self.assertRaises(RuntimeError, self.reader.get_image_count)
 
-    # def test_series_count(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_series_count)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_series_count(), SERIES_COUNT)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_series_count)
+    def test_series_count(self):
+        self.assertRaises(RuntimeError, self.reader.get_series_count)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_series_count(), SERIES_COUNT)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_series_count)
 
-    # def test_series(self):
-    #     self.assertRaises(ome_files.Error, self.reader.set_series, 0)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertRaises(TypeError, self.reader.set_series, 0.)
-    #     self.reader.set_series(0)
-    #     self.assertEqual(self.reader.get_series(), 0)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.set_series, 0)
+    def test_series(self):
+        self.assertRaises(RuntimeError, self.reader.set_series, 0)
+        self.reader.set_id(IMG_PATH)
+        self.assertRaises(TypeError, self.reader.set_series, 0.)
+        self.reader.set_series(0)
+        self.assertEqual(self.reader.get_series(), 0)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.set_series, 0)
 
-    # def test_dimensions(self):
-    #     for dim in "xyztc":
-    #         meth = getattr(self.reader, "get_size_%s" % dim)
-    #         self.assertRaises(ome_files.Error, meth)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_size_x(), SIZE_X)
-    #     self.assertEqual(self.reader.get_size_y(), SIZE_Y)
-    #     self.assertEqual(self.reader.get_size_z(), SIZE_Z)
-    #     self.assertEqual(self.reader.get_size_t(), SIZE_T)
-    #     self.assertEqual(self.reader.get_size_c(), SIZE_C)
-    #     self.reader.close()
-    #     for dim in "xyztc":
-    #         meth = getattr(self.reader, "get_size_%s" % dim)
-    #         self.assertRaises(ome_files.Error, meth)
+    def test_dimensions(self):
+        for dim in "xyztc":
+            meth = getattr(self.reader, "get_size_%s" % dim)
+            self.assertRaises(RuntimeError)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_size_x(), SIZE_X)
+        self.assertEqual(self.reader.get_size_y(), SIZE_Y)
+        self.assertEqual(self.reader.get_size_z(), SIZE_Z)
+        self.assertEqual(self.reader.get_size_t(), SIZE_T)
+        self.assertEqual(self.reader.get_size_c(), SIZE_C)
+        self.reader.close()
+        for dim in "xyztc":
+            meth = getattr(self.reader, "get_size_%s" % dim)
+            self.assertRaises(RuntimeError, meth)
 
-    # def test_dimension_order(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_dimension_order)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_dimension_order(), DIMENSION_ORDER)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_dimension_order)
+    def test_dimension_order(self):
+        self.assertRaises(RuntimeError, self.reader.get_dimension_order)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_dimension_order(), DIMENSION_ORDER)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_dimension_order)
 
-    # def test_index(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_index, 0, 0, 0)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_index(0, 0, 0), 0)
-    #     self.assertRaises(ome_files.Error, self.reader.get_index, SIZE_Z, 0, 0)
-    #     self.assertRaises(ome_files.Error, self.reader.get_index, 0, SIZE_C, 0)
-    #     self.assertRaises(ome_files.Error, self.reader.get_index, 0, 0, SIZE_T)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_index, 0, 0, 0)
+    def test_index(self):
+        self.assertRaises(RuntimeError, self.reader.get_index, 0, 0, 0)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_index(0, 0, 0), 0)
+        self.assertRaises(IndexError, self.reader.get_index, SIZE_Z, 0, 0)
+        self.assertRaises(IndexError, self.reader.get_index, 0, SIZE_C, 0)
+        self.assertRaises(IndexError, self.reader.get_index, 0, 0, SIZE_T)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_index, 0, 0, 0)
 
-    # def test_zct_coords(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_zct_coords, 0)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_zct_coords(0), [0, 0, 0])
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_zct_coords, 0)
+    def test_zct_coords(self):
+        self.assertRaises(RuntimeError, self.reader.get_zct_coords, 0)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_zct_coords(0), [0, 0, 0])
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_zct_coords, 0)
 
-    # def test_all_coords(self):
-    #     self.reader.set_id(IMG_PATH)
-    #     for z in range(SIZE_Z):
-    #         for c in range(SIZE_C):
-    #             for t in range(SIZE_T):
-    #                 index = self.reader.get_index(z, c, t)
-    #                 zct = self.reader.get_zct_coords(index)
-    #                 self.assertEqual(zct, [z, c, t])
-    #     self.reader.close()
+    def test_all_coords(self):
+        self.reader.set_id(IMG_PATH)
+        for z in range(SIZE_Z):
+            for c in range(SIZE_C):
+                for t in range(SIZE_T):
+                    index = self.reader.get_index(z, c, t)
+                    zct = self.reader.get_zct_coords(index)
+                    self.assertEqual(zct, [z, c, t])
+        self.reader.close()
 
     # def test_pixel_type(self):
     #     self.assertRaises(ome_files.Error, self.reader.get_pixel_type)
@@ -169,23 +169,21 @@ class TestOMETiffReader(unittest.TestCase):
         self.assertRaises(TypeError, self.reader.close, NotABool())
         self.reader.close()
 
-    # def test_rgb_channel_count(self):
-    #     self.assertRaises(ome_files.Error,
-    #                       self.reader.get_rgb_channel_count, 0)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertRaises(TypeError, self.reader.get_rgb_channel_count, 0.)
-    #     self.assertEqual(self.reader.get_rgb_channel_count(0), RGB_C_COUNT)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error,
-    #                       self.reader.get_rgb_channel_count, 0)
+    def test_rgb_channel_count(self):
+        self.assertRaises(RuntimeError, self.reader.get_rgb_channel_count, 0)
+        self.reader.set_id(IMG_PATH)
+        self.assertRaises(TypeError, self.reader.get_rgb_channel_count, 0.)
+        self.assertEqual(self.reader.get_rgb_channel_count(0), RGB_C_COUNT)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_rgb_channel_count, 0)
 
     # def test_interleaved(self):
-    #     self.assertRaises(ome_files.Error, self.reader.is_interleaved, 0)
+    #     self.assertRaises(RuntimeError, self.reader.is_interleaved, 0)
     #     self.reader.set_id(IMG_PATH)
     #     self.assertRaises(TypeError, self.reader.is_interleaved, 0.)
     #     self.assertEqual(self.reader.is_interleaved(0), INTERLEAVED)
     #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.is_interleaved, 0)
+    #     self.assertRaises(RuntimeError, self.reader.is_interleaved, 0)
 
     # def test_open_bytes(self):
     #     self.assertRaises(ome_files.Error, self.reader.open_bytes, 0)
