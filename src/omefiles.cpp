@@ -53,6 +53,12 @@ PYBIND11_PLUGIN(ome_files) {
     .def("get_rgb_channel_count", [](OMETIFFReader &r, size_t channel) {
 	return r.getRGBChannelCount(channel);
       }, "Get the number of sub-channels for the given channel.")
+    .def("is_interleaved",
+	 (bool (OMETIFFReader::*)(size_t) const) &OMETIFFReader::isInterleaved,
+	 "Whether or not the given channel is interleaved")
+    .def("is_interleaved",
+	 (bool (OMETIFFReader::*)() const) &OMETIFFReader::isInterleaved,
+	 "Whether or not the channels are interleaved")
     .def("close", &OMETIFFReader::close, "Close the currently open file. "
 	 "If file_only is False, also reset all internal state",
 	 py::arg("file_only") = false);
