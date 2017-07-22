@@ -87,7 +87,15 @@ PYBIND11_PLUGIN(ome_files) {
 	default:
 	  throw std::invalid_argument("unknown pixel type");
 	}
-      }, "get the pixel type")
+      }, "Get the pixel type.")
+    .def("open_bytes", [](OMETIFFReader &r, size_t plane) {
+	ome::files::VariantPixelBuffer buf;
+	r.openBytes(plane, buf);
+	return py::bytes(std::string(
+          reinterpret_cast<char*>(buf.data()),
+          buf.num_elements() * ome::files::bytesPerPixel(buf.pixelType())
+	));
+      }, "Obtain the image plane for the given index.")
     .def("close", &OMETIFFReader::close, "Close the currently open file. "
 	 "If file_only is False, also reset all internal state",
 	 py::arg("file_only") = false);

@@ -188,14 +188,14 @@ class TestOMETiffReader(unittest.TestCase):
         self.assertRaises(RuntimeError, self.reader.is_interleaved, 0)
         self.assertRaises(RuntimeError, self.reader.is_interleaved)
 
-    # def test_open_bytes(self):
-    #     self.assertRaises(ome_files.Error, self.reader.open_bytes, 0)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertRaises(TypeError, self.reader.open_bytes, 0.)
-    #     raw = self.reader.open_bytes(0)
-    #     self.assertEqual(len(raw), SIZE_X * SIZE_Y * BYTES_PER_PIXEL)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.open_bytes, 0)
+    def test_open_bytes(self):
+        self.assertRaises(RuntimeError, self.reader.open_bytes, 0)
+        self.reader.set_id(IMG_PATH)
+        self.assertRaises(TypeError, self.reader.open_bytes, 0.)
+        raw = self.reader.open_bytes(0)
+        self.assertEqual(len(raw), SIZE_X * SIZE_Y * BYTES_PER_PIXEL)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.open_bytes, 0)
 
     # def test_used_files(self):
     #     self.assertRaises(ome_files.Error, self.reader.get_used_files)
