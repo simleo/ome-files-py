@@ -152,12 +152,12 @@ class TestOMETiffReader(unittest.TestCase):
                     self.assertEqual(zct, [z, c, t])
         self.reader.close()
 
-    # def test_pixel_type(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_pixel_type)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertEqual(self.reader.get_pixel_type(), PIXEL_TYPE)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_pixel_type)
+    def test_pixel_type(self):
+        self.assertRaises(RuntimeError, self.reader.get_pixel_type)
+        self.reader.set_id(IMG_PATH)
+        self.assertEqual(self.reader.get_pixel_type(), PIXEL_TYPE)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_pixel_type)
 
     def test_bad_id(self):
         filename = str(uuid.uuid4())

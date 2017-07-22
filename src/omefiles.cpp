@@ -2,6 +2,7 @@
 #include <pybind11/stl.h>
 #include <string>
 #include <ome/files/in/OMETIFFReader.h>
+#include <ome/xml/model/enums/PixelType.h>
 
 namespace py = pybind11;
 using ome::files::in::OMETIFFReader;
@@ -59,6 +60,34 @@ PYBIND11_PLUGIN(ome_files) {
     .def("is_interleaved",
 	 (bool (OMETIFFReader::*)() const) &OMETIFFReader::isInterleaved,
 	 "Whether or not the channels are interleaved")
+    .def("get_pixel_type", [](OMETIFFReader &r) {
+	switch(r.getPixelType()) {
+	case ome::xml::model::enums::PixelType::INT8:
+	  return "i1";
+	case ome::xml::model::enums::PixelType::INT16:
+	  return "i2";
+	case ome::xml::model::enums::PixelType::INT32:
+	  return "i4";
+	case ome::xml::model::enums::PixelType::UINT8:
+	  return "u1";
+	case ome::xml::model::enums::PixelType::UINT16:
+	  return "u2";
+	case ome::xml::model::enums::PixelType::UINT32:
+	  return "u4";
+	case ome::xml::model::enums::PixelType::FLOAT:
+	  return "f4";
+	case ome::xml::model::enums::PixelType::DOUBLE:
+	  return "f8";
+	case ome::xml::model::enums::PixelType::COMPLEXFLOAT:
+	  return "c8";
+	case ome::xml::model::enums::PixelType::COMPLEXDOUBLE:
+	  return "c16";
+	case ome::xml::model::enums::PixelType::BIT:
+	  return "b1";
+	default:
+	  throw std::invalid_argument("unknown pixel type");
+	}
+      }, "get the pixel type")
     .def("close", &OMETIFFReader::close, "Close the currently open file. "
 	 "If file_only is False, also reset all internal state",
 	 py::arg("file_only") = false);
