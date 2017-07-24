@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <ome/files/in/OMETIFFReader.h>
+#include <ome/xml/meta/MetadataStore.h>
+#include <ome/xml/meta/OMEXMLMetadata.h>
 #include <ome/xml/model/enums/PixelType.h>
 
 namespace py = pybind11;
@@ -11,7 +13,13 @@ using ome::files::in::OMETIFFReader;
 PYBIND11_PLUGIN(ome_files) {
   py::module m("ome_files");
   py::class_<OMETIFFReader>(m, "OMETIFFReader")
-    .def(py::init<>())
+    .def("__init__", [](OMETIFFReader &r) {
+	new (&r) OMETIFFReader();
+	std::shared_ptr<ome::xml::meta::MetadataStore> store(
+          std::make_shared<ome::xml::meta::OMEXMLMetadata>()
+        );
+	r.setMetadataStore(store);
+      })
     .def("set_id", [](OMETIFFReader &r, std::string id) {
 	r.setId(id);
       }, "Set the current file name.")
@@ -106,6 +114,12 @@ PYBIND11_PLUGIN(ome_files) {
       }, "Get the files used by this dataset. "
       "If no_pixels is False, exclude pixel data files.",
       py::arg("no_pixels") = false)
+    .def("get_ome_xml", [](OMETIFFReader &r) {
+	auto meta = std::dynamic_pointer_cast<ome::xml::meta::OMEXMLMetadata>(
+          r.getMetadataStore()
+        );
+	return meta->dumpXML();
+      }, "Get the OME XML metadata block.")
     .def("close", &OMETIFFReader::close, "Close the currently open file. "
 	 "If file_only is False, also reset all internal state",
 	 py::arg("file_only") = false);

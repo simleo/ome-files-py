@@ -208,10 +208,10 @@ class TestOMETiffReader(unittest.TestCase):
         self.reader.close()
         self.assertRaises(RuntimeError, self.reader.get_used_files)
 
-    # def test_metadata(self):
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertTrue(self.reader.get_ome_xml().strip().startswith("<?xml"))
-    #     self.reader.close()
+    def test_metadata(self):
+        self.reader.set_id(IMG_PATH)
+        self.assertTrue(self.reader.get_ome_xml().strip().startswith("<?xml"))
+        self.reader.close()
 
     # def test_open_array(self):
     #     self.reader.set_id(IMG_PATH)
