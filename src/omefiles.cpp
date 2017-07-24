@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 #include <string>
+#include <vector>
 #include <ome/files/in/OMETIFFReader.h>
 #include <ome/xml/model/enums/PixelType.h>
 
@@ -96,6 +97,15 @@ PYBIND11_PLUGIN(ome_files) {
           buf.num_elements() * ome::files::bytesPerPixel(buf.pixelType())
 	));
       }, "Obtain the image plane for the given index.")
+    .def("get_used_files", [](OMETIFFReader &r, bool noPixels = false) {
+	std::vector<std::string> fnames;
+	for (const auto &f : r.getUsedFiles(noPixels)) {
+	  fnames.push_back(f.string());
+	}
+	return fnames;
+      }, "Get the files used by this dataset. "
+      "If no_pixels is False, exclude pixel data files.",
+      py::arg("no_pixels") = false)
     .def("close", &OMETIFFReader::close, "Close the currently open file. "
 	 "If file_only is False, also reset all internal state",
 	 py::arg("file_only") = false);

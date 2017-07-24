@@ -197,16 +197,16 @@ class TestOMETiffReader(unittest.TestCase):
         self.reader.close()
         self.assertRaises(RuntimeError, self.reader.open_bytes, 0)
 
-    # def test_used_files(self):
-    #     self.assertRaises(ome_files.Error, self.reader.get_used_files)
-    #     self.reader.set_id(IMG_PATH)
-    #     self.assertRaises(TypeError, self.reader.get_used_files, NotABool())
-    #     fnames = self.reader.get_used_files()
-    #     self.assertEqual(len(fnames), len(USED_FILES))
-    #     self.assertPathsEqualNoOrder(fnames, USED_FILES)
-    #     self.assertEqual(len(self.reader.get_used_files(no_pixels=True)), 0)
-    #     self.reader.close()
-    #     self.assertRaises(ome_files.Error, self.reader.get_used_files)
+    def test_used_files(self):
+        self.assertRaises(RuntimeError, self.reader.get_used_files)
+        self.reader.set_id(IMG_PATH)
+        self.assertRaises(TypeError, self.reader.get_used_files, NotABool())
+        fnames = self.reader.get_used_files()
+        self.assertEqual(len(fnames), len(USED_FILES))
+        self.assertPathsEqualNoOrder(fnames, USED_FILES)
+        self.assertEqual(len(self.reader.get_used_files(no_pixels=True)), 0)
+        self.reader.close()
+        self.assertRaises(RuntimeError, self.reader.get_used_files)
 
     # def test_metadata(self):
     #     self.reader.set_id(IMG_PATH)
